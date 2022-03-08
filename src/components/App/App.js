@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getOrders, postOrder } from '../../apiCalls';
+import { getOrders, postOrder, deleteOrder } from '../../apiCalls';
 import Orders from '../../components/Orders/Orders';
 import OrderForm from '../../components/OrderForm/OrderForm';
 
@@ -28,6 +28,15 @@ class App extends Component {
       .catch(error => this.setState({ error: error }))
   }
 
+  removeOrder = (id) => {
+    deleteOrder(id)
+      .then(() => getOrders())
+      .then(data => {
+        this.setState({ orders: data.orders })
+      })
+      .catch(err => console.error('Error fetching:', err));
+  }
+
   render() {
     return (
       <main className="App">
@@ -36,7 +45,7 @@ class App extends Component {
           <OrderForm addNewOrder={this.addNewOrder} />
         </header>
 
-        <Orders orders={this.state.orders} />
+        <Orders orders={this.state.orders} removeOrder={this.removeOrder} />
       </main>
     );
   }

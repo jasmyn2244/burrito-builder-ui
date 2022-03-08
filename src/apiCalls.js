@@ -4,13 +4,18 @@ export const getOrders = () => {
 }
 
 export const postOrder = (newOrder) => {
-  console.log("new order:", newOrder)
   return fetch('http://localhost:3001/api/v1/orders', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newOrder)
   })
     .then(response => checkResponse(response))
+}
+
+export const deleteOrder = (id) => {
+  return fetch(`http://localhost:3001/api/v1/orders/${id}`, {
+    method: 'DELETE',
+  })
 }
 
 const checkResponse = (response) => {
